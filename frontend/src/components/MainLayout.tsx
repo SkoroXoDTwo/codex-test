@@ -1,6 +1,7 @@
 import { PropsWithChildren } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { AuthUser } from '../types';
 
 const Wrapper = styled.div`
   min-height: 100vh;
@@ -14,14 +15,14 @@ const Header = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 1.5rem;
+  padding: 16px 24px;
   background: #ffffff;
   border-bottom: 1px solid #e5e7eb;
 `;
 
 const Nav = styled.nav`
   display: flex;
-  gap: 1rem;
+  gap: 16px;
 `;
 
 const NavLink = styled(Link)`
@@ -33,18 +34,28 @@ const NavLink = styled(Link)`
 const Main = styled.main`
   margin: 0 auto;
   max-width: 960px;
-  padding: 2rem 1.5rem;
+  padding: 32px 24px;
 `;
 
-export const MainLayout = ({ children }: PropsWithChildren) => {
+const UserName = styled.span`
+  font-size: 14px;
+  color: #111827;
+`;
+
+type MainLayoutProps = PropsWithChildren & {
+  user: AuthUser | null;
+};
+
+export const MainLayout = ({ children, user }: MainLayoutProps) => {
   return (
     <Wrapper>
       <Header>
         <strong>Test Case Service</strong>
         <Nav>
           <NavLink to="/">Главная</NavLink>
-          <NavLink to="/login">Вход</NavLink>
+          <NavLink to="/login">Авторизация</NavLink>
           <NavLink to="/register">Регистрация</NavLink>
+          {user ? <UserName>Вы вошли как: {user.name}</UserName> : null}
         </Nav>
       </Header>
       <Main>{children}</Main>
